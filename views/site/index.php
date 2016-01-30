@@ -7,7 +7,7 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Welcome to Booking Tour!</h1>
+        <h1>Welcome to Booking Tours service!</h1>
 
         <p class="lead">Chose available tour to continue</p>
 
