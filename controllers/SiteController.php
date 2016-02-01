@@ -11,6 +11,7 @@
 	use app\models\ContactForm;
 	use app\models\Tours;
 	use app\models\TourForm;
+	use app\models\Bookings;
 
 	class SiteController extends Controller
 	{
@@ -123,5 +124,47 @@
 			return $this->render('add_new_tour', [
 				'model' => $model
 			]);
+		}
+
+		public function actionDeleteTour($tour_id)
+		{
+			if (!$tour = Tours::findOne($tour_id)) {
+				Yii::$app->session->setFlash('error', 'Tour does not exists');
+				$this->redirect('manage-tours');
+			}
+			if (Bookings::findAll([Bookings::FIELD_TOUR_ID => $tour_id])) {
+				Yii::$app->session->setFlash('error', 'This tour can not delete because it has a reserved places');
+				$this->redirect('manage-tours');
+			}
+			$tour->delete();
+
+
+			Yii::$app->session->setFlash('success', 'Tour successful deleted');
+			$this->redirect('manage-tours');
+		}
+
+		public function actionViewTour($tour_id)
+		{
+			$model = Tours::findOne($tour_id);
+			return $this->render('view_tour',[
+				'model' => $model
+			]);
+		}
+
+		public function actionEditTour($tour_id)
+		{
+			$tour = Tours::findOne($tour_id);
+			$model = new TourForm();
+			$model->initForm($tour);
+
+			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				Yii::$app->session->setFlash('success', 'Tour successful updated');
+				$this->redirect('manage-tours');
+			}
+
+			return $this->render('edit_tour', [
+				'model' => $model
+			]);
+
 		}
 	}

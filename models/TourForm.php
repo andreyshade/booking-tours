@@ -14,6 +14,7 @@
 	class TourForm extends Model
 	{
 
+		public $tour_id;
 		public $title;
 		public $max_adults;
 		public $max_children;
@@ -43,8 +44,16 @@
 			];
 		}
 
-		public function initForm()
+		/**
+		 * @param $tour Tours
+		 */
+		public function initForm($tour)
 		{
+			$this->tour_id = $tour->tour_id;
+			$this->title = $tour->title;
+			$this->max_adults = $tour->max_adults;
+			$this->max_children = $tour->max_children;
+			$this->max_babies = $tour->max_babies;
 		}
 
 		public function save()
@@ -52,7 +61,8 @@
 			if (!$this->validate()) {
 				return false;
 			}
-			$tour = new Tours();
+
+			$tour = ($this->tour_id ? Tours::findOne($this->tour_id) : new Tours());
 			$tour->title = $this->title;
 			$tour->max_adults = $this->max_adults;
 			$tour->max_children = $this->max_children;

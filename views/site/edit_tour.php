@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 use app\models\TourForm;
 ?>
 
-<?php $this->title = 'Add New Tour' ?>
+<?php $this->title = 'Edit tour' ?>
 <?php $this->params['breadcrumbs'][] = ['label' => 'Manage Tours', 'url' => 'manage-tours']?>
 <?php $this->params['breadcrumbs'][] = $this->title ?>
 

@@ -52,12 +52,29 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
             'attribute' => Tours::FIELD_MAX_BABIES
         ],
         [
-            'class' => ActionColumn::className()
+            'class' => ActionColumn::className(),
+            'contentOptions' => [
+				'class' => 'text-center'
+			],
+            'buttons' => [
+                    'view' => function($url, $model, $key) {
+                        /* @var $model Tours*/
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['view-tour', Tours::FIELD_TOUR_ID => $model->tour_id]);
+                    },
+                    'update' => function($url, $model, $key) {
+                        /* @var $model Tours */
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit-tour', Tours::FIELD_TOUR_ID => $model->tour_id]);
+                    },
+                    'delete' => function($url, $model, $key) {
+                        /* @var $model Tours */
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete-tour', Tours::FIELD_TOUR_ID => $model->tour_id]);
+                    }
+            ]
         ]
     ]
 ]);?>
 <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 text-right">
                 <?= Html::a('Add new tour', 'add-new-tour', ['class' => 'btn btn-success'])?>
         </div>
 </div>
