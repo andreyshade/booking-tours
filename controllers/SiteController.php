@@ -1,111 +1,127 @@
 <?php
 
-namespace app\controllers;
+	namespace app\controllers;
 
-use Yii;
-use yii\data\ActiveDataProvider;
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
-use app\models\Tours;
+	use Yii;
+	use yii\data\ActiveDataProvider;
+	use yii\filters\AccessControl;
+	use yii\web\Controller;
+	use yii\filters\VerbFilter;
+	use app\models\LoginForm;
+	use app\models\ContactForm;
+	use app\models\Tours;
+	use app\models\TourForm;
 
-class SiteController extends Controller
-{
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+	class SiteController extends Controller
+	{
+		public function behaviors()
+		{
+			return [
+				'access' => [
+					'class' => AccessControl::className(),
+					'only' => ['logout'],
+					'rules' => [
+						[
+							'actions' => ['logout'],
+							'allow' => true,
+							'roles' => ['@'],
+						],
+					],
+				],
+				'verbs' => [
+					'class' => VerbFilter::className(),
+					'actions' => [
+						'logout' => ['post'],
+					],
+				],
+			];
+		}
 
-    public function actions()
-    {
-        return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
-        ];
-    }
+		public function actions()
+		{
+			return [
+				'error' => [
+					'class' => 'yii\web\ErrorAction',
+				],
+				'captcha' => [
+					'class' => 'yii\captcha\CaptchaAction',
+					'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+				],
+			];
+		}
 
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Tours::find()
-        ]);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider
-        ]);
-    }
+		public function actionIndex()
+		{
+			$dataProvider = new ActiveDataProvider([
+				'query' => Tours::find()
+			]);
+			return $this->render('index', [
+				'dataProvider' => $dataProvider
+			]);
+		}
 
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+		public function actionLogin()
+		{
+			if (!\Yii::$app->user->isGuest) {
+				return $this->goHome();
+			}
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
+			$model = new LoginForm();
+			if ($model->load(Yii::$app->request->post()) && $model->login()) {
+				return $this->goBack();
+			}
+			return $this->render('login', [
+				'model' => $model,
+			]);
+		}
 
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
+		public function actionLogout()
+		{
+			Yii::$app->user->logout();
 
-        return $this->goHome();
-    }
+			return $this->goHome();
+		}
 
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+		public function actionContact()
+		{
+			$model = new ContactForm();
+			if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+				Yii::$app->session->setFlash('contactFormSubmitted');
 
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
+				return $this->refresh();
+			}
+			return $this->render('contact', [
+				'model' => $model,
+			]);
+		}
 
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+		public function actionAbout()
+		{
+			return $this->render('about');
+		}
 
-    public function actionManageTours() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Tours::find()
-        ]);
+		public function actionManageTours()
+		{
+			$dataProvider = new ActiveDataProvider([
+				'query' => Tours::find()
+			]);
 
-        return $this->render('manage_tours', [
-            'dataProvider' => $dataProvider
-        ]);
-    }
-}
+			return $this->render('manage_tours', [
+				'dataProvider' => $dataProvider
+			]);
+		}
+
+		public function actionAddNewTour()
+		{
+			$model = new TourForm();
+
+			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				Yii::$app->session->setFlash('success', 'Tour successful added');
+				$this->redirect('manage-tours');
+			}
+
+			return $this->render('add_new_tour', [
+				'model' => $model
+			]);
+		}
+	}

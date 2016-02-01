@@ -5,17 +5,27 @@
  * Date: 30.01.16
  * Time: 23:03
  *
- * @var $this \yii\web\View;
+ * @var $this \yii\web\View
  * @var $dataProvider \yii\data\ActiveDataProvider
  */
-use app\models\Tours;
 use yii\grid\GridView;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
+use yii\helpers\Html;
+use app\models\Tours;
+use app\models\TourForm;
 
 $this->title = 'Manage tours';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php
+foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+}
+?>
+
+<?= Html::tag('h1', $this->title)?>
 
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -46,3 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ]
 ]);?>
+<div class="row">
+        <div class="col-sm-12">
+                <?= Html::a('Add new tour', 'add-new-tour', ['class' => 'btn btn-success'])?>
+        </div>
+</div>
