@@ -10,6 +10,7 @@
 	use app\models\LoginForm;
 	use app\models\ContactForm;
 	use app\models\Tours;
+	use app\models\ToursTime;
 	use app\models\TourForm;
 	use app\models\Bookings;
 
@@ -157,13 +158,18 @@
 			$model = new TourForm();
 			$model->initForm($tour);
 
+			$dataProvider = new ActiveDataProvider([
+				'query' => ToursTime::find($tour_id)
+			]);
+
 			if ($model->load(Yii::$app->request->post()) && $model->save()) {
 				Yii::$app->session->setFlash('success', 'Tour successful updated');
 				$this->redirect('manage-tours');
 			}
 
 			return $this->render('edit_tour', [
-				'model' => $model
+				'model' => $model,
+				'dataProvider' => $dataProvider
 			]);
 
 		}

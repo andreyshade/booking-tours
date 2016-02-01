@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "tours_time".
+ * This is the model class for table "tours_dates".
  *
  * @property integer $tour_time_id
  * @property integer $tour_id
@@ -13,7 +13,7 @@ use Yii;
  */
 class ToursTime extends \yii\db\ActiveRecord
 {
-    const FIELD_TOUR_TIME_ID = 'tour_time_id';
+    const FIELD_TOUR_DATE_ID = 'tour_date_id';
     const FIELD_TOUR_ID = 'tour_id';
     const FIELD_DATE = 'date';
 
@@ -22,7 +22,7 @@ class ToursTime extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tours_time';
+        return 'tours_dates';
     }
 
     /**
@@ -42,9 +42,9 @@ class ToursTime extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'tour_time_id' => 'Tour Time ID',
-            'tour_id' => 'Tour ID',
-            'date' => 'Date',
+            self::FIELD_TOUR_DATE_ID => 'Tour Date ID',
+            self::FIELD_TOUR_ID => 'Tour ID',
+            self::FIELD_DATE => 'Date',
         ];
     }
 }

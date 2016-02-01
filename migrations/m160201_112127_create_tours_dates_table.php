@@ -3,12 +3,12 @@
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m160201_112127_create_tours_time_table extends Migration
+class m160201_112127_create_tours_dates_table extends Migration
 {
     public function up()
     {
-        $this->createTable('tours_time', [
-            'tour_time_id' => Schema::TYPE_PK,
+        $this->createTable('tours_dates', [
+            'tour_date_id' => Schema::TYPE_PK,
             'tour_id' => Schema::TYPE_INTEGER,
             'date' => Schema::TYPE_DATE
         ]);
@@ -16,7 +16,7 @@ class m160201_112127_create_tours_time_table extends Migration
 
     public function down()
     {
-        $this->dropTable('tours_time');
+        $this->dropTable('tours_dates');
     }
 
     /*

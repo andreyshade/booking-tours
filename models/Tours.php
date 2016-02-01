@@ -12,7 +12,6 @@ use Yii;
  * @property integer $max_adults
  * @property integer $max_children
  * @property integer $max_babies
- * @property string $tours_dates
  */
 class Tours extends \yii\db\ActiveRecord
 {
@@ -21,7 +20,6 @@ class Tours extends \yii\db\ActiveRecord
     const FIELD_MAX_ADULTS = 'max_adults';
     const FIELD_MAX_CHILDREN = 'max_children';
     const FIELD_MAX_BABIES = 'max_babies';
-    const FIELD_TOURS_DATES = 'tours_dates';
 
     /**
      * @inheritdoc
@@ -38,7 +36,7 @@ class Tours extends \yii\db\ActiveRecord
     {
         return [
             [[self::FIELD_MAX_ADULTS, self::FIELD_MAX_CHILDREN, self::FIELD_MAX_BABIES], 'integer'],
-            [[self::FIELD_TITLE, self::FIELD_TOURS_DATES], 'string', 'max' => 255]
+            [[self::FIELD_TITLE], 'string', 'max' => 255]
         ];
     }
 
@@ -53,7 +51,6 @@ class Tours extends \yii\db\ActiveRecord
             self::FIELD_MAX_ADULTS => 'Max Adults',
             self::FIELD_MAX_CHILDREN => 'Max Children',
             self::FIELD_MAX_BABIES => 'Max Babies',
-            self::FIELD_TOURS_DATES => 'Tours Dates',
         ];
     }
 }
