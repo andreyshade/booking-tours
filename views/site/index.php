@@ -38,8 +38,6 @@ $this->title = 'Booking tours';
                 [
                     'class' => \yii\grid\ActionColumn::className()
                 ]
-
-
             ]
         ])?>
     </div>

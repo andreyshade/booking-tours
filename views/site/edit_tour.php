@@ -7,11 +7,14 @@
  *
  * @var $this \yii\web\View
  * @var $model \app\models\Tours
+ * @var $tourDateForm \app\models\ToursDatesForm;
  * @var $dataProvider \yii\data\ActiveDataProvider
  *
  */
 use yii\bootstrap\Html;
 use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
+use app\models\ToursDatesForm;
 ?>
 
 <?php $this->title = 'Edit tour' ?>
@@ -34,6 +37,19 @@ use yii\widgets\ListView;
 			'layout' => '{items}'
 	])?>
 </div>
-<div class="row text-right">
-	<?= Html::a('Add New Date', 'add-tour-date', ['class' => 'btn btn-success'])?>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<?php $form = ActiveForm::begin([
+			'options' => ['class' => 'form-inline'],
+			'fieldConfig' => [
+				'template' => "{input}"
+			]
+		])?>
+			<?= $form->field($tourDateForm, ToursDatesForm::FIELD_TOUR_ID)->hiddenInput(['value' => $model->tour_id])?>
+			<?= $form->field($tourDateForm, ToursDatesForm::FIELD_DATE)->input('date')?>
+
+			<?= Html::submitButton('Add New Date', ['class' => 'btn btn-success'])?>
+
+		<?php ActiveForm::end();?>
+	</div>
 </div>

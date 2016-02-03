@@ -8,8 +8,7 @@ use Yii;
  * This is the model class for table "bookings".
  *
  * @property integer $booking_id
- * @property integer $tour_id
- * @property string $date
+ * @property integer $tour_date_id
  * @property string $name
  * @property integer $adults
  * @property integer $children
@@ -18,8 +17,7 @@ use Yii;
 class Bookings extends \yii\db\ActiveRecord
 {
     const FIELD_BOOKING_ID = 'booking_id';
-    const FIELD_TOUR_ID = 'tour_id';
-    const FIELD_DATE = 'date';
+    const FIELD_TOUR_DATE_ID = 'tour_date_id';
     const FIELD_NAME = 'name';
     const FIELD_ADULTS = 'adults';
     const FIELD_CHILDREN = 'children';
@@ -38,8 +36,7 @@ class Bookings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[self::FIELD_TOUR_ID, self::FIELD_ADULTS, self::FIELD_CHILDREN, self::FIELD_BABIES], 'integer'],
-            [[self::FIELD_DATE], 'safe'],
+            [[self::FIELD_TOUR_DATE_ID, self::FIELD_ADULTS, self::FIELD_CHILDREN, self::FIELD_BABIES], 'integer'],
             [[self::FIELD_NAME], 'string', 'max' => 255]
         ];
     }
@@ -51,8 +48,7 @@ class Bookings extends \yii\db\ActiveRecord
     {
         return [
             self::FIELD_BOOKING_ID => 'Booking ID',
-            self::FIELD_TOUR_ID => 'Tour ID',
-            self::FIELD_DATE => 'Date',
+            self::FIELD_TOUR_DATE_ID => 'Tour Date ID',
             self::FIELD_NAME => 'Name',
             self::FIELD_ADULTS => 'Adults',
             self::FIELD_CHILDREN => 'Children',

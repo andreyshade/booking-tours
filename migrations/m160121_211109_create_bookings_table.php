@@ -9,8 +9,7 @@ class m160121_211109_create_bookings_table extends Migration
     {
         $this->createTable('bookings', [
             'booking_id' => Schema::TYPE_PK,
-            'tour_id' => Schema::TYPE_INTEGER,
-            'date' => Schema::TYPE_DATE,
+            'tour_date_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING,
             'adults' => Schema::TYPE_INTEGER,
             'children' => Schema::TYPE_INTEGER,

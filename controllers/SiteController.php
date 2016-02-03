@@ -13,6 +13,8 @@
 	use app\models\ToursTime;
 	use app\models\TourForm;
 	use app\models\Bookings;
+	use app\models\ToursDates;
+	use app\models\ToursDatesForm;
 
 	class SiteController extends Controller
 	{
@@ -158,17 +160,25 @@
 			$model = new TourForm();
 			$model->initForm($tour);
 
+			$tourDateForm = new ToursDatesForm();
+
 			$dataProvider = new ActiveDataProvider([
-				'query' => ToursTime::find($tour_id)
+				'query' => ToursDates::find($tour_id)
 			]);
 
-			if ($model->load(Yii::$app->request->post()) && $model->save()) {
+			if ($model->load(Yii::$app->request->post(), 'TourForm') && $model->save()) {
 				Yii::$app->session->setFlash('success', 'Tour successful updated');
 				$this->redirect('manage-tours');
 			}
 
+			if ($tourDateForm->load(Yii::$app->request->post(), 'ToursDatesForm') && $tourDateForm->save()) {
+				Yii::$app->session->setFlash('success', 'New date successful added');
+				$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_id]);
+			}
+
 			return $this->render('edit_tour', [
 				'model' => $model,
+				'tourDateForm' => $tourDateForm,
 				'dataProvider' => $dataProvider
 			]);
 
