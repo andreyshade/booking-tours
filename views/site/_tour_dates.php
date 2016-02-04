@@ -30,6 +30,10 @@ use app\models\Bookings;
 					<td><?= Html::tag('b', 'Babies:')?></td><td><?= $model->getBookedPlaces(Bookings::FIELD_BABIES)?></td>
 				</tr>
   			</table>
+			<?= Html::a('Delete', ['delete-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id], ['class' => 'btn btn-danger'])?>
+			<div class="pull-right">
+				<?= Html::a('View Details', ['view-details-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id], ['class' => 'btn btn-primary'])?>
+			</div>
 		</div>
 	</div>
 </div>

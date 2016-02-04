@@ -26,6 +26,7 @@ class ToursDatesForm extends Model
     public function rules()
     {
         return [
+            [[self::FIELD_DATE], 'required'],
             [[self::FIELD_TOUR_ID], 'integer'],
             [[self::FIELD_DATE], 'date', 'format' => 'Y-m-D']
         ];

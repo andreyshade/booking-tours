@@ -195,4 +195,18 @@
 			]);
 
 		}
+
+		public function actionDeleteTourDate($tour_date_id)
+		{
+			$tour_date = ToursDates::findOne($tour_date_id);
+			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $tour_date_id])) {
+				Yii::$app->session->setFlash('error', 'This date can not delete because it has a reserved places');
+				$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
+
+			}
+			$tour_date->delete();
+			Yii::$app->session->setFlash('success', 'Tour date successful deleted');
+			$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
+		}
+
 	}
