@@ -4,7 +4,9 @@
 
 	use Yii;
 	use yii\data\ActiveDataProvider;
+	use yii\db\Query;
 	use yii\filters\AccessControl;
+	use yii\helpers\ArrayHelper;
 	use yii\web\Controller;
 	use yii\filters\VerbFilter;
 	use app\models\LoginForm;
@@ -135,13 +137,23 @@
 				Yii::$app->session->setFlash('error', 'Tour does not exists');
 				$this->redirect('manage-tours');
 			}
-			if (Bookings::findAll([Bookings::FIELD_TOUR_ID => $tour_id])) {
+
+			$query = new Query();
+			$query->select([ToursDates::FIELD_TOUR_DATE_ID])
+				->from(ToursDates::tableName())
+				->where([ToursDates::FIELD_TOUR_ID => $tour_id]);
+			$dates_id = ArrayHelper::getColumn($query->all(), ToursDates::FIELD_TOUR_DATE_ID);
+
+
+			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $dates_id])) {
 				Yii::$app->session->setFlash('error', 'This tour can not delete because it has a reserved places');
 				$this->redirect('manage-tours');
+
 			}
+
+			ToursDates::deleteAll([ToursDates::FIELD_TOUR_ID => $tour_id]);
+
 			$tour->delete();
-
-
 			Yii::$app->session->setFlash('success', 'Tour successful deleted');
 			$this->redirect('manage-tours');
 		}
@@ -163,7 +175,7 @@
 			$tourDateForm = new ToursDatesForm();
 
 			$dataProvider = new ActiveDataProvider([
-				'query' => ToursDates::find($tour_id)
+				'query' => ToursDates::find()->where([ToursDates::FIELD_TOUR_ID => $tour_id])
 			]);
 
 			if ($model->load(Yii::$app->request->post(), 'TourForm') && $model->save()) {

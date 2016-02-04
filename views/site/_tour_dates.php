@@ -29,7 +29,6 @@ use app\models\Bookings;
 				<tr>
 					<td><?= Html::tag('b', 'Babies:')?></td><td><?= $model->getBookedPlaces(Bookings::FIELD_BABIES)?></td>
 				</tr>
-
   			</table>
 		</div>
 	</div>
