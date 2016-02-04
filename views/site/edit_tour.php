@@ -21,6 +21,12 @@ use app\models\ToursDatesForm;
 <?php $this->params['breadcrumbs'][] = ['label' => 'Manage Tours', 'url' => 'manage-tours']?>
 <?php $this->params['breadcrumbs'][] = $this->title ?>
 
+<?php
+foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+}
+?>
+
 <?= Html::tag('h1', $this->title)?>
 
 <?= $this->render('_tour_form', [

@@ -30,9 +30,11 @@ use app\models\Bookings;
 					<td><?= Html::tag('b', 'Babies:')?></td><td><?= $model->getBookedPlaces(Bookings::FIELD_BABIES)?></td>
 				</tr>
   			</table>
-			<?= Html::a('Delete', ['delete-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id], ['class' => 'btn btn-danger'])?>
+			<?= Html::a('Delete', ['delete-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id],
+				['class' => 'btn btn-danger', 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete ' . $model->date . ' date?')])?>
 			<div class="pull-right">
-				<?= Html::a('View Details', ['view-details-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id], ['class' => 'btn btn-primary'])?>
+				<?= Html::a('View Details', ['view-details-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $model->tour_date_id],
+					['class' => 'btn btn-primary'])?>
 			</div>
 		</div>
 	</div>

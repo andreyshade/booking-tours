@@ -58,4 +58,25 @@ class ToursDates extends \yii\db\ActiveRecord
         return ($query->sum($for) ? $query->sum($for) : 0);
     }
 
+    public function getAvailablePlaces($for)
+    {
+        $booked_places = $this->getBookedPlaces($for);
+        $tour = Tours::findOne($this->tour_id);
+        $all_places = 0;
+        switch ($for) {
+            case Bookings::FIELD_ADULTS:
+                $all_places = $tour->max_adults;
+                break;
+            case Bookings::FIELD_CHILDREN:
+                $all_places = $tour->max_children;
+                break;
+            case Bookings::FIELD_BABIES:
+                $all_places = $tour->max_children;
+                break;
+        }
+        $result = $all_places - $booked_places;
+        return (($result >= 0 )? $result : 0);
+    }
+
+
 }

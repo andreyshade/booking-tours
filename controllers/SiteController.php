@@ -205,8 +205,9 @@
 
 			}
 			$tour_date->delete();
-			Yii::$app->session->setFlash('success', 'Tour date successful deleted');
+			Yii::$app->session->setFlash('success', 'Tours date successful deleted');
 			$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
 		}
+
 
 	}

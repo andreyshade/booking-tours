@@ -6,8 +6,10 @@
  */
     use yii\grid\DataColumn;
     use yii\grid\GridView;
+    use yii\grid\ActionColumn;
     use yii\db\Query;
     use yii\db\Expression;
+    use yii\helpers\Html;
     use app\models\ToursDates;
     use app\models\Tours;
 
@@ -47,7 +49,17 @@ $this->title = 'Booking tours';
                     }
                 ],
                 [
-                    'class' => \yii\grid\ActionColumn::className()
+                    'class' => ActionColumn::className(),
+                    'contentOptions' => [
+                        'class' => 'text-center'
+                    ],
+                    'template' => '{view}',
+                    'buttons' => [
+                        'view' => function($url, $model, $key) {
+                            /* @var $model Tours */
+                            return Html::a('View Details' , ['booking/tour-details', Tours::FIELD_TOUR_ID => $model->tour_id], ['class' => 'btn btn-success']);
+                        }
+                    ]
                 ]
             ]
         ])?>
