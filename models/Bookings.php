@@ -55,4 +55,9 @@ class Bookings extends \yii\db\ActiveRecord
             self::FIELD_BABIES => 'Babies',
         ];
     }
+
+    public function getTourDate()
+    {
+        return $this->hasOne(ToursDates::className(), [ToursDates::FIELD_TOUR_DATE_ID => self::FIELD_TOUR_DATE_ID]);
+    }
 }

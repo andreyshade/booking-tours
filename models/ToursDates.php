@@ -78,5 +78,10 @@ class ToursDates extends \yii\db\ActiveRecord
         return (($result >= 0 )? $result : 0);
     }
 
+    public function getTour()
+    {
+        return $this->hasOne(Tours::className(), [Tours::FIELD_TOUR_ID => self::FIELD_TOUR_ID]);
+    }
+
 
 }
