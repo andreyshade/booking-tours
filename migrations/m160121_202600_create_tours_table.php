@@ -12,7 +12,8 @@ class m160121_202600_create_tours_table extends Migration
             'title' => Schema::TYPE_STRING,
             'max_adults' => Schema::TYPE_INTEGER,
             'max_children' => Schema::TYPE_INTEGER,
-            'max_babies' => Schema::TYPE_INTEGER
+            'max_babies' => Schema::TYPE_INTEGER,
+            'custom_field' => Schema::TYPE_STRING
         ]);
     }
 

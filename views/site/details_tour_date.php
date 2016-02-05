@@ -42,7 +42,15 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 		Bookings::FIELD_CHILDREN,
 		Bookings::FIELD_BABIES,
 		[
-			'class' => ActionColumn::className()
+			'class' => ActionColumn::className(),
+			'template' => '{delete}',
+			'contentOptions' => ['class' => 'text-center'],
+			'buttons' => [
+				'delete' => function($url, $model, $key) {
+                        /* @var $model Bookings */
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete-booking', Bookings::FIELD_BOOKING_ID=> $model->booking_id]);
+                    }
+			]
 		]
 	]
 ])?>

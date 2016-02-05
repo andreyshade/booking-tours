@@ -226,5 +226,13 @@
 			]);
 		}
 
+		public function actionDeleteBooking($booking_id)
+		{
+			$tour = Bookings::findOne($booking_id);
+			$tour->delete();
+			Yii::$app->session->setFlash('success', 'Booking successful deleted');
+			return $this->redirect(['view-details-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $tour->tour_date_id]);
+		}
+
 
 	}
