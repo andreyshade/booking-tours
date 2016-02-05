@@ -74,7 +74,10 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
     ]
 ]);?>
 <div class="row">
-        <div class="col-sm-12 text-right">
+        <div class="col-sm-12">
+            <?= Html::a('Back', 'index', ['class' => 'btn btn-default'])?>
+            <div class="pull-right">
                 <?= Html::a('Add new tour', 'add-new-tour', ['class' => 'btn btn-success'])?>
+            </div>
         </div>
 </div>

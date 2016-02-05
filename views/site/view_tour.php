@@ -7,8 +7,10 @@
  *
  * @var $this \yii\web\View
  * @var $model \app\models\Tours;
+ * @var $dataProvider \yii\data\ActiveDataProvider;
  *
  */
+use yii\widgets\ListView;
 use yii\bootstrap\Html;
 use yii\widgets\ActiveForm;
 use app\models\TourForm;
@@ -43,4 +45,17 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 </div>
 <br>
 <legend>Available dates of tours</legend>
-
+<div class="row">
+	<?= ListView::widget([
+			'dataProvider' => $dataProvider,
+			'showOnEmpty' => false,
+			'emptyText' => '<div class="col-sm-12">No availabe tour dates found</div>',
+			'itemView' => '_tour_dates_with_book_places',
+			'layout' => '{items}'
+	])?>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<?= Html::a('Back', 'manage-tours', ['class' => 'btn btn-default'])?>
+	</div>
+</div>

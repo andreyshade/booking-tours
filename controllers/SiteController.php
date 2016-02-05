@@ -134,8 +134,8 @@
 		public function actionDeleteTour($tour_id)
 		{
 			if (!$tour = Tours::findOne($tour_id)) {
-				Yii::$app->session->setFlash('error', 'Tour does not exists');
-				$this->redirect('manage-tours');
+				Yii::$app->session->setFlash('danger', 'Tour does not exists');
+				return $this->redirect('manage-tours');
 			}
 
 			$query = new Query();
@@ -146,9 +146,8 @@
 
 
 			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $dates_id])) {
-				Yii::$app->session->setFlash('error', 'This tour can not delete because it has a reserved places');
-				$this->redirect('manage-tours');
-
+				Yii::$app->session->setFlash('danger', 'This tour can not delete because it has a reserved places');
+				return $this->redirect('manage-tours');
 			}
 
 			ToursDates::deleteAll([ToursDates::FIELD_TOUR_ID => $tour_id]);
@@ -161,8 +160,13 @@
 		public function actionViewTour($tour_id)
 		{
 			$model = Tours::findOne($tour_id);
+			$dataProvider = new ActiveDataProvider([
+				'query' => ToursDates::find()->where([ToursDates::FIELD_TOUR_ID => $tour_id])
+			]);
+
 			return $this->render('view_tour',[
-				'model' => $model
+				'model' => $model,
+				'dataProvider' => $dataProvider
 			]);
 		}
 
@@ -200,7 +204,7 @@
 		{
 			$tour_date = ToursDates::findOne($tour_date_id);
 			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $tour_date_id])) {
-				Yii::$app->session->setFlash('error', 'This date can not delete because it has a reserved places');
+				Yii::$app->session->setFlash('danger', 'This date can not delete because it has a reserved places');
 				$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
 
 			}

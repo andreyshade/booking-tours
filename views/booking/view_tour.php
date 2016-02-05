@@ -41,5 +41,11 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 			'layout' => '{items}'
 ])?>
 </div>
+<br>
+<div class="row">
+	<div class="col-sm-12">
+		<?= Html::a('Back', '/site/index', ['class' => 'btn btn-default'])?>
+	</div>
+</div>
 
 
