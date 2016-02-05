@@ -213,5 +213,18 @@
 			$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
 		}
 
+		public function actionViewDetailsTourDate($tour_date_id)
+		{
+			$model = ToursDates::findOne($tour_date_id);
+			$dataProvider = new ActiveDataProvider([
+				'query' => Bookings::find()->where([Bookings::FIELD_TOUR_DATE_ID => $tour_date_id])
+			]);
+
+			return $this->render('details_tour_date', [
+				'model' => $model,
+				'dataProvider' => $dataProvider
+			]);
+		}
+
 
 	}
