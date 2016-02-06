@@ -7,14 +7,17 @@
  *
  * @var $this \yii\web\View
  * @var $model \app\models\Tours
- * @var $tourDateForm \app\models\ToursDatesForm;
+ * @var $tourDateForm \app\models\ToursDatesForm
+ * @var $customFieldForm CustomFieldsForm
  * @var $dataProvider \yii\data\ActiveDataProvider
+ * @var $customFieldsDataProvider \yii\data\ActiveDataProvider
  *
  */
 use yii\bootstrap\Html;
 use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
 use app\models\ToursDatesForm;
+use app\models\CustomFieldsForm;
 ?>
 
 <?php $this->title = 'Edit tour' ?>
@@ -29,9 +32,40 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 
 <?= Html::tag('h1', $this->title)?>
 
+<br>
+<legend>Required options</legend>
+
 <?= $this->render('_tour_form', [
 	'model' => $model
 ])?>
+
+<br>
+<legend>Custom fields</legend>
+<div class="row">
+	<?= ListView::widget([
+			'dataProvider' => $customFieldsDataProvider,
+			'showOnEmpty' => false,
+			'emptyText' => '<div class="col-sm-12">No availabe tour custom fields found</div>',
+			'itemView' => '_tour_custom_fields',
+			'layout' => '{items}'
+	])?>
+</div>
+<div class="row">
+	<div class="col-sm-12 text-right">
+		<?php $form = ActiveForm::begin([
+			'options' => ['class' => 'form-inline'],
+			'fieldConfig' => [
+				'template' => "{input}"
+			]
+		])?>
+			<?= $form->field($customFieldForm, CustomFieldsForm::FIELD_TOUR_ID)->hiddenInput(['value' => $model->tour_id])?>
+			<?= $form->field($customFieldForm, CustomFieldsForm::FIELD_LABEL)?>
+
+			<?= Html::submitButton('Add New Custom Field', ['class' => 'btn btn-success'])?>
+
+		<?php ActiveForm::end();?>
+	</div>
+</div>
 <br>
 <legend>Tour dates</legend>
 <div class="row">

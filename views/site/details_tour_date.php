@@ -48,7 +48,9 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 			'buttons' => [
 				'delete' => function($url, $model, $key) {
                         /* @var $model Bookings */
-                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete-booking', Bookings::FIELD_BOOKING_ID=> $model->booking_id]);
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete-booking',
+							Bookings::FIELD_BOOKING_ID=> $model->booking_id],
+							['data-confirm' => Yii::t('yii', 'Are you sure you want to delete booking record?')]);
                     }
 			]
 		]

@@ -13,7 +13,8 @@ class m160121_211109_create_bookings_table extends Migration
             'name' => Schema::TYPE_STRING,
             'adults' => Schema::TYPE_INTEGER,
             'children' => Schema::TYPE_INTEGER,
-            'babies' =>Schema::TYPE_INTEGER
+            'babies' => Schema::TYPE_INTEGER,
+            'custom_fields' => Schema::TYPE_STRING
         ]);
     }
 

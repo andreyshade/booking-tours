@@ -17,6 +17,8 @@
 	use app\models\Bookings;
 	use app\models\ToursDates;
 	use app\models\ToursDatesForm;
+	use app\models\CustomFields;
+	use app\models\CustomFieldsForm;
 
 	class SiteController extends Controller
 	{
@@ -178,24 +180,38 @@
 
 			$tourDateForm = new ToursDatesForm();
 
+			$customFieldForm = new CustomFieldsForm();
+
 			$dataProvider = new ActiveDataProvider([
 				'query' => ToursDates::find()->where([ToursDates::FIELD_TOUR_ID => $tour_id])
 			]);
 
+			$customFieldsDataProvider = new ActiveDataProvider([
+				'query' => CustomFields::find()->where([CustomFields::FIELD_TOUR_ID => $tour_id])
+			]);
+
 			if ($model->load(Yii::$app->request->post(), 'TourForm') && $model->save()) {
 				Yii::$app->session->setFlash('success', 'Tour successful updated');
-				$this->redirect('manage-tours');
+				return $this->redirect('manage-tours');
 			}
 
 			if ($tourDateForm->load(Yii::$app->request->post(), 'ToursDatesForm') && $tourDateForm->save()) {
 				Yii::$app->session->setFlash('success', 'New date successful added');
-				$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_id]);
+				return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_id]);
+			}
+
+			if ($customFieldForm->load(Yii::$app->request->post(), 'CustomFieldsForm') && $customFieldForm->save()) {
+				Yii::$app->session->setFlash('success', 'New Custom field successful added');
+				return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_id]);
+
 			}
 
 			return $this->render('edit_tour', [
 				'model' => $model,
 				'tourDateForm' => $tourDateForm,
-				'dataProvider' => $dataProvider
+				'customFieldForm' => $customFieldForm,
+				'dataProvider' => $dataProvider,
+				'customFieldsDataProvider' => $customFieldsDataProvider
 			]);
 
 		}
@@ -205,12 +221,12 @@
 			$tour_date = ToursDates::findOne($tour_date_id);
 			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $tour_date_id])) {
 				Yii::$app->session->setFlash('danger', 'This date can not delete because it has a reserved places');
-				$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
+				return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
 
 			}
 			$tour_date->delete();
 			Yii::$app->session->setFlash('success', 'Tours date successful deleted');
-			$this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
+			return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $tour_date->tour_id]);
 		}
 
 		public function actionViewDetailsTourDate($tour_date_id)
@@ -234,5 +250,16 @@
 			return $this->redirect(['view-details-tour-date', ToursDates::FIELD_TOUR_DATE_ID => $tour->tour_date_id]);
 		}
 
+		public function actionDeleteCustomField($custom_field_id)
+		{
+			$custom_field = CustomFields::findOne($custom_field_id);
+			if ($bookings = Bookings::findAll([Bookings::FIELD_TOUR_DATE_ID => $custom_field->tour_id])) {
+				Yii::$app->session->setFlash('danger', 'This custom field can not delete because it contains in reserved places records');
+				return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $custom_field->tour_id]);
 
+			}
+			$custom_field->delete();
+			Yii::$app->session->setFlash('success', 'Tours date successful deleted');
+			return $this->redirect(['edit-tour', Tours::FIELD_TOUR_ID => $custom_field->tour_id]);
+		}
 	}
