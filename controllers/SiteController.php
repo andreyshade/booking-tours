@@ -156,7 +156,7 @@
 
 			$tour->delete();
 			Yii::$app->session->setFlash('success', 'Tour successful deleted');
-			$this->redirect('manage-tours');
+			return $this->redirect('manage-tours');
 		}
 
 		public function actionViewTour($tour_id)
@@ -174,7 +174,10 @@
 
 		public function actionEditTour($tour_id)
 		{
-			$tour = Tours::findOne($tour_id);
+			if (!$tour = Tours::findOne($tour_id)){
+				Yii::$app->session->setFlash('danger', 'Tour not found');
+				return $this->redirect('manage-tours');
+			};
 			$model = new TourForm();
 			$model->initForm($tour);
 

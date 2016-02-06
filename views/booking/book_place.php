@@ -43,6 +43,11 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 	<?= $form->field($model, BookingsForm::FIELD_CHILDREN)->input('number', ['min' => 0, 'value' => 0])?>
 
 	<?= $form->field($model, BookingsForm::FIELD_BABIES)->input('number', ['min' => 0, 'value' => 0])?>
+
+	<?php foreach ($custom_fields as $field):?>
+			<?= $form->field($model, 'custom_fields[' . $field['custom_field_id'] .']')->label($field['label'])?>
+	<?php endforeach;?>
+
 	<div class="row">
 		<div class="col-sm-12">
 				<?= Html::a('Back', ['tour-details', Tours::FIELD_TOUR_ID => $tour_date->tour_id], ['class' => 'btn btn-default'])?>
@@ -51,4 +56,5 @@ foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
 			</div>
 		</div>
 	</div>
+
 <?php ActiveForm::end();?>

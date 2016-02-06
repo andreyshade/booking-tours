@@ -3,10 +3,15 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\BookingsForm;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use app\models\Tours;
 use app\models\ToursDates;
+use app\models\CustomFields;
+use app\models\BookingsForm;
+use app\models\CustomFieldsForm;
+use yii\helpers\ArrayHelper;
+
 
 class BookingController extends \yii\web\Controller
 {
@@ -29,6 +34,9 @@ class BookingController extends \yii\web\Controller
     {
         $model = new BookingsForm();
         $tour_date = ToursDates::findOne($tour_date_id);
+        $query = new Query;
+
+        $custom_fields = CustomFields::getCustomFieldsArray($tour_date->tour_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Congratulations! Places successful booked');
@@ -37,7 +45,8 @@ class BookingController extends \yii\web\Controller
 
         return $this->render('book_place', [
             'model' => $model,
-            'tour_date' => $tour_date
+            'tour_date' => $tour_date,
+            'custom_fields' => $custom_fields
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Query;
 
 /**
  * This is the model class for table "custom_fields".
@@ -46,5 +47,13 @@ class CustomFields extends \yii\db\ActiveRecord
             self::FIELD_TOUR_ID => 'Tour ID',
             self::FIELD_LABEL => 'Label',
         ];
+    }
+
+    public static function getCustomFieldsArray($tour_id)
+    {
+        $query = new Query;
+        $query->from(CustomFields::tableName())->where([CustomFields::FIELD_TOUR_ID => $tour_id]);
+        $result = $query->all();
+        return $result;
     }
 }

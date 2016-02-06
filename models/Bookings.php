@@ -13,6 +13,7 @@ use Yii;
  * @property integer $adults
  * @property integer $children
  * @property integer $babies
+ * @property string $custom_fields
  */
 class Bookings extends \yii\db\ActiveRecord
 {
@@ -22,6 +23,8 @@ class Bookings extends \yii\db\ActiveRecord
     const FIELD_ADULTS = 'adults';
     const FIELD_CHILDREN = 'children';
     const FIELD_BABIES = 'babies';
+    const FIELD_CUSTOM_FIELDS = 'custom_fields';
+
     /**
      * @inheritdoc
      */
@@ -37,7 +40,8 @@ class Bookings extends \yii\db\ActiveRecord
     {
         return [
             [[self::FIELD_TOUR_DATE_ID, self::FIELD_ADULTS, self::FIELD_CHILDREN, self::FIELD_BABIES], 'integer'],
-            [[self::FIELD_NAME], 'string', 'max' => 255]
+            [[self::FIELD_NAME], 'string', 'max' => 255],
+            [[self::FIELD_CUSTOM_FIELDS], 'safe']
         ];
     }
 

@@ -15,6 +15,7 @@ class BookingsForm extends Model
     public $adults;
     public $children;
     public $babies;
+    public $custom_fields = [];
 
 
 
@@ -24,6 +25,8 @@ class BookingsForm extends Model
     const FIELD_ADULTS = 'adults';
     const FIELD_CHILDREN = 'children';
     const FIELD_BABIES = 'babies';
+    const FiELD_CUSTOM_FIELDS = 'custom_fields';
+
     /**
      * @inheritdoc
      */
@@ -42,6 +45,7 @@ class BookingsForm extends Model
             [[self::FIELD_TOUR_DATE_ID, self::FIELD_ADULTS, self::FIELD_CHILDREN, self::FIELD_BABIES], 'integer'],
             [[self::FIELD_ADULTS, self::FIELD_CHILDREN, self::FIELD_BABIES], 'validateMaxAvailable'],
             [[self::FIELD_NAME], 'string', 'max' => 255],
+            [[self::FiELD_CUSTOM_FIELDS], 'safe']
         ];
     }
     
@@ -83,6 +87,7 @@ class BookingsForm extends Model
         }
         $booking = new Bookings();
         $booking->attributes = $this->attributes;
+        $booking->custom_fields = serialize($this->custom_fields);
         $booking->save();
         return true;            
     }
