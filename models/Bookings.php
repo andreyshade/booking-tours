@@ -57,6 +57,7 @@ class Bookings extends \yii\db\ActiveRecord
             self::FIELD_ADULTS => 'Adults',
             self::FIELD_CHILDREN => 'Children',
             self::FIELD_BABIES => 'Babies',
+            self::FIELD_CUSTOM_FIELDS => 'Custom Fields'
         ];
     }
 
